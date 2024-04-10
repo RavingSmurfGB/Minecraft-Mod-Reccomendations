@@ -1,0 +1,35 @@
+
+import discord
+
+####### discord client 
+intents = discord.Intents.default()
+intents.message_content = True
+client = discord.Client(intents=intents)
+
+
+@client.event
+async def on_ready():
+    print(f'Connected to Discord {client.user}')
+
+
+@client.event
+async def on_message(message):
+    #Ignore own message..
+    if message.author == client.user:
+        return
+    
+    # discord embed - # https://stackoverflow.com/questions/72078273/how-to-embed-an-image-with-a-url-on-discord-with-a-bot-using-python
+    # colours - https://discordpy.readthedocs.io/en/stable/api.html#colour
+    
+    
+    # Commands
+    if message.content.startswith('!commands'):
+        embedVar = discord.Embed(title="Commands", description=" ", color=0x1ABC9C)
+        embedVar.add_field(name="!commands", value="Lists all availible commands", inline=False )
+        embedVar.add_field(name="!resource", value="Provides a list of all the Resource Packs Joe reccomends", inline=False)
+        embedVar.set_footer(text = 'RavingSmurfGB', icon_url= "https://avatars.githubusercontent.com/u/23278939?s=400&u=d649e4f89ffcb3063eeabdbc41eee6fb071eeddb&v=4")
+        await message.channel.send(embed=embedVar, delete_after=120)
+
+discord_token = "add_you_token_here"
+
+client.run(discord_token)
